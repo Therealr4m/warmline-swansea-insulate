@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://warmlineswansealoftinsulation.co.uk/sitemap.xml
