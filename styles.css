@@ -35,3 +35,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid #d78a00; outline-offs
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* internal links */
+.internal-links{
+  color: #044739;
+  font-weight: bolder;
+}
