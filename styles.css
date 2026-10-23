@@ -89,3 +89,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #d78a00; outline-offs
 @media (prefers-reduced-motion: reduce) {
   .dropdown-chevron { transition: none; }
 }
+/* internal links */
+.internal-links{
+  color: #0a9c7d;
+  font-weight: bolder;
+}
