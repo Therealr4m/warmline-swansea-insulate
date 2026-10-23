@@ -7,6 +7,12 @@ const navLinks = document.querySelector("#nav-links");
 if (menuButton && navLinks) {
   const setMenuOpen = (open) => {
     navLinks.classList.toggle("open", open);
+    if (!open) {
+      const dropdownButton = navLinks.querySelector(".nav-dropdown-toggle");
+      const dropdownMenu = navLinks.querySelector(".nav-dropdown-menu");
+      dropdownButton?.setAttribute("aria-expanded", "false");
+      dropdownMenu?.classList.remove("is-open");
+    }
     menuButton.setAttribute("aria-expanded", String(open));
     menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
     menuButton.textContent = open ? "✕" : "☰";
@@ -57,3 +63,35 @@ document.querySelectorAll("a[data-track]").forEach((link) => {
     }
   });
 });
+
+// Areas dropdown: click/tap to open, Escape or outside click to close.
+const areasDropdown = document.querySelector('[data-areas-dropdown]');
+const areasButton = areasDropdown?.querySelector('.nav-dropdown-toggle');
+const areasMenu = areasDropdown?.querySelector('.nav-dropdown-menu');
+if (areasDropdown && areasButton && areasMenu) {
+  const setAreasOpen = (open) => {
+    areasButton.setAttribute('aria-expanded', String(open));
+    areasMenu.classList.toggle('is-open', open);
+  };
+
+  areasButton.addEventListener('click', () => {
+    setAreasOpen(areasButton.getAttribute('aria-expanded') !== 'true');
+  });
+
+  areasMenu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setAreasOpen(false));
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!areasDropdown.contains(event.target)) setAreasOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && areasButton.getAttribute('aria-expanded') === 'true') {
+      setAreasOpen(false);
+      areasButton.focus();
+    }
+  });
+
+  window.matchMedia('(min-width: 721px)').addEventListener('change', () => setAreasOpen(false));
+}
