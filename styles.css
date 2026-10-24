@@ -94,3 +94,17 @@ a:focus-visible, button:focus-visible { outline: 3px solid #d78a00; outline-offs
   color: #0a9c7d;
   font-weight: bolder;
 }
+
+
+/* Four-item site navigation: Main Service / Other Services / Areas We Cover / Contact. */
+/* Both menus reuse the existing .nav-dropdown and .nav-dropdown-menu styles. */
+.links > a { display: inline-flex; align-items: center; min-height: 44px; }
+.links > .nav-dropdown { min-width: 0; }
+.nav-dropdown-menu { max-height: min(65vh, 460px); overflow-y: auto; }
+/* Long service titles remain readable on narrow viewports. */
+@media (max-width: 720px) {
+  .links { gap: 8px; }
+  .links > a { min-height: 44px; }
+  .nav-dropdown-menu { max-height: none; overflow: visible; }
+  .nav-dropdown-menu a { overflow-wrap: anywhere; }
+}

@@ -1,97 +1,96 @@
 "use strict";
 
-// Navigation works across every static page. No third-party dependencies.
+// Shared mobile and desktop navigation. Supports multiple independent dropdowns.
 const menuButton = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector("#nav-links");
+const dropdowns = Array.from(document.querySelectorAll("[data-nav-dropdown]"));
 
-if (menuButton && navLinks) {
-  const setMenuOpen = (open) => {
-    navLinks.classList.toggle("open", open);
-    if (!open) {
-      const dropdownButton = navLinks.querySelector(".nav-dropdown-toggle");
-      const dropdownMenu = navLinks.querySelector(".nav-dropdown-menu");
-      dropdownButton?.setAttribute("aria-expanded", "false");
-      dropdownMenu?.classList.remove("is-open");
-    }
-    menuButton.setAttribute("aria-expanded", String(open));
-    menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
-    menuButton.textContent = open ? "✕" : "☰";
-  };
+function setDropdownOpen(dropdown, open) {
+  const toggle = dropdown.querySelector(".nav-dropdown-toggle");
+  const panel = dropdown.querySelector(".nav-dropdown-menu");
+  if (!toggle || !panel) return;
+  toggle.setAttribute("aria-expanded", String(open));
+  panel.classList.toggle("is-open", open);
+}
 
-  menuButton.addEventListener("click", () => {
-    setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
-  });
-
-  navLinks.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setMenuOpen(false));
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
-      setMenuOpen(false);
-      menuButton.focus();
-    }
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!menuButton.contains(event.target) && !navLinks.contains(event.target)) {
-      setMenuOpen(false);
-    }
-  });
-
-  const desktop = window.matchMedia("(min-width: 721px)");
-  desktop.addEventListener("change", (event) => {
-    if (event.matches) setMenuOpen(false);
+function closeDropdowns(except = null) {
+  dropdowns.forEach((dropdown) => {
+    if (dropdown !== except) setDropdownOpen(dropdown, false);
   });
 }
 
-// Date remains current on all three pages without editing HTML each year.
+function setMobileMenuOpen(open) {
+  if (!menuButton || !navLinks) return;
+  navLinks.classList.toggle("open", open);
+  menuButton.setAttribute("aria-expanded", String(open));
+  menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+  menuButton.textContent = open ? "✕" : "☰";
+  if (!open) closeDropdowns();
+}
+
+if (menuButton && navLinks) {
+  menuButton.addEventListener("click", () => {
+    setMobileMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+  });
+
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMobileMenuOpen(false));
+  });
+}
+
+dropdowns.forEach((dropdown) => {
+  const toggle = dropdown.querySelector(".nav-dropdown-toggle");
+  if (!toggle) return;
+
+  toggle.addEventListener("click", () => {
+    const shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
+    closeDropdowns();
+    setDropdownOpen(dropdown, shouldOpen);
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if (menuButton && navLinks && !menuButton.contains(event.target) && !navLinks.contains(event.target)) {
+    setMobileMenuOpen(false);
+  }
+  if (!dropdowns.some((dropdown) => dropdown.contains(event.target))) {
+    closeDropdowns();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  const openedDropdown = dropdowns.find((dropdown) =>
+    dropdown.querySelector(".nav-dropdown-toggle")?.getAttribute("aria-expanded") === "true"
+  );
+  if (openedDropdown) {
+    closeDropdowns();
+    openedDropdown.querySelector(".nav-dropdown-toggle")?.focus();
+    return;
+  }
+  if (menuButton?.getAttribute("aria-expanded") === "true") {
+    setMobileMenuOpen(false);
+    menuButton.focus();
+  }
+});
+
+window.matchMedia("(min-width: 721px)").addEventListener("change", (event) => {
+  if (event.matches) setMobileMenuOpen(false);
+});
+
+// Keep copyright years current without touching website copy.
 document.querySelectorAll(".year").forEach((year) => {
   year.textContent = new Date().getFullYear();
 });
 
-// GA4/GTM integration point: only emits events if the owner has configured gtag.
-// Click events indicate contact intent; they are NOT verified enquiries.
+// Optional analytics hooks; only active when the site owner has configured gtag.
 document.querySelectorAll("a[data-track]").forEach((link) => {
   link.addEventListener("click", () => {
-    const eventName = link.dataset.track;
     if (typeof window.gtag === "function") {
-      window.gtag("event", eventName, {
+      window.gtag("event", link.dataset.track, {
         link_url: link.href,
         page_location: window.location.href,
       });
     }
   });
 });
-
-// Areas dropdown: click/tap to open, Escape or outside click to close.
-const areasDropdown = document.querySelector('[data-areas-dropdown]');
-const areasButton = areasDropdown?.querySelector('.nav-dropdown-toggle');
-const areasMenu = areasDropdown?.querySelector('.nav-dropdown-menu');
-if (areasDropdown && areasButton && areasMenu) {
-  const setAreasOpen = (open) => {
-    areasButton.setAttribute('aria-expanded', String(open));
-    areasMenu.classList.toggle('is-open', open);
-  };
-
-  areasButton.addEventListener('click', () => {
-    setAreasOpen(areasButton.getAttribute('aria-expanded') !== 'true');
-  });
-
-  areasMenu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => setAreasOpen(false));
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!areasDropdown.contains(event.target)) setAreasOpen(false);
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && areasButton.getAttribute('aria-expanded') === 'true') {
-      setAreasOpen(false);
-      areasButton.focus();
-    }
-  });
-
-  window.matchMedia('(min-width: 721px)').addEventListener('change', () => setAreasOpen(false));
-}
