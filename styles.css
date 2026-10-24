@@ -36,8 +36,75 @@ a:focus-visible, button:focus-visible { outline: 3px solid #d78a00; outline-offs
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
 
+/* Areas we cover — desktop dropdown and mobile nested menu */
+.footer-grid { grid-template-columns: 1.7fr 1fr 1fr 1.3fr; }
+.footer-grid > div { min-width: 0; }
+.footer-grid a { overflow-wrap: anywhere; }
+.nav-dropdown { position: relative; flex: 0 0 auto; }
+.nav-dropdown-toggle {
+  display: inline-flex; align-items: center; gap: .4rem;
+  border: 0; padding: 10px 0; background: transparent;
+  color: var(--ink); font: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.nav-dropdown-toggle:hover, .nav-dropdown-toggle.is-current,
+.nav-dropdown-toggle[aria-expanded="true"] { color: var(--teal); }
+.dropdown-chevron { display:inline-block; font-size:1.2em; line-height: 1; transition: transform .18s ease; }
+.nav-dropdown-toggle[aria-expanded="true"] .dropdown-chevron { transform: rotate(180deg); }
+.nav-dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 10px); left: 0;
+  min-width: 210px; padding: 9px; background: #fff;
+  border: 1px solid #dce9de; border-radius: 12px;
+  box-shadow: 0 14px 35px #102b2526; z-index: 55;
+}
+.nav-dropdown-menu.is-open { display: grid; gap: 3px; }
+.nav-dropdown-menu a {
+  display: block; padding: 10px 13px; border-radius: 7px; white-space: nowrap;
+  min-height: 44px;
+}
+.nav-dropdown-menu a:hover, .nav-dropdown-menu a[aria-current="page"] {
+  background: var(--mint); color: var(--forest);
+}
+.nav-dropdown-toggle:focus-visible { outline: 3px solid #d78a00; outline-offset: 4px; }
+@media (max-width: 950px) and (min-width: 721px) {
+  .links { gap: 10px; }
+  .links a, .nav-dropdown-toggle { font-size: 12px; }
+  .nav { gap: 12px; }
+  .nav > .btn { display: none; }
+}
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .nav-dropdown { width: 100%; }
+  .nav-dropdown-toggle {
+    display: flex; width: 100%; justify-content: space-between; text-align: left;
+    font-size: 14px; min-height: 44px; padding: 8px 0;
+  }
+  .nav-dropdown-menu {
+    position: static; box-shadow: none; border: 0; border-left: 2px solid var(--teal);
+    border-radius: 0; min-width: 0; margin: 1px 0 5px 8px; padding: 2px 0 2px 13px;
+    background: transparent;
+  }
+  .nav-dropdown-menu a { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-chevron { transition: none; }
+}
 /* internal links */
 .internal-links{
   color: #0a9c7d;
   font-weight: bolder;
+}
+
+
+/* Four-item site navigation: Main Service / Other Services / Areas We Cover / Contact. */
+/* Both menus reuse the existing .nav-dropdown and .nav-dropdown-menu styles. */
+.links > a { display: inline-flex; align-items: center; min-height: 44px; }
+.links > .nav-dropdown { min-width: 0; }
+.nav-dropdown-menu { max-height: min(65vh, 460px); overflow-y: auto; }
+/* Long service titles remain readable on narrow viewports. */
+@media (max-width: 720px) {
+  .links { gap: 8px; }
+  .links > a { min-height: 44px; }
+  .nav-dropdown-menu { max-height: none; overflow: visible; }
+  .nav-dropdown-menu a { overflow-wrap: anywhere; }
 }
