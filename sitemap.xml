@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://warmlineswansealoftinsulation.co.uk/</loc></url>
-  <url><loc>https://warmlineswansealoftinsulation.co.uk/uplands.html</loc></url>
-  <url><loc>https://warmlineswansealoftinsulation.co.uk/contact.html</loc></url>
-  <url><loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-llansamlet.html</loc></url>
-  <url><loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-mumbles.html</loc></url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/index.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/uplands.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-gorseinon.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-morriston.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-sketty.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-west-cross.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-penllergaer.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-dunvant.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-killay.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-mumbles.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-loughor.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/locations/loft-insulation-llansamlet.html</loc>
+  </url>
+
+  <url>
+    <loc>https://warmlineswansealoftinsulation.co.uk/contact.html</loc>
+  </url>
+
 </urlset>
